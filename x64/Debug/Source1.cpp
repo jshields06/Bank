@@ -1,3 +1,6 @@
+//Given account number 123456, the user is able to access the bank and choose from options.
+//The menu prompts the user to either withdraw, deposit, see balance, or exit.
+
 #include <iostream>
 #include <cmath>
 #include <fstream>
@@ -5,6 +8,7 @@
 #include <conio.h> 
 using namespace std;
 
+//initialize variables
 float accnum;
 int cash;
 int cash2;
@@ -14,39 +18,39 @@ string yesnoo;
 string noyes;
 string line;
 
-void options() {
+void options() { // creates menu 
 	cout << "PLEASE CHOOSE AN OPTION BELOW.\n\n";
 	cout << "       " << "DIRECTORY       \n" << "       ---------\n";
 	cout << "[1] WITHDRAW\n" << "[2] DEPOSIT\n" << "[3] SEE BALANCE\n" << "[4] EXIT\n";
 	cin >> opt;
 }
 
-void withdraw() {
+void withdraw() { // subtracts amount of cash inputted
 	int negcash;
 	int x;
 
 	ifstream myfile;
-	myfile.open("money.txt");
-	getline(myfile, line);
+	myfile.open("money.txt"); // opens file for reading
+	getline(myfile, line); // reads file
 	if (line == "0") {
-		cout << "CANNONT WITHDRAW WHEN CURRENT BALANCE IS ZERO.\n\n";
+		cout << "CANNONT WITHDRAW WHEN CURRENT BALANCE IS ZERO.\n\n"; // checks if 0
 		goto end;
 	}
 	redraw:	cout << "HOW MUCH WOULD YOU LIKE TO WITHDRAW?: ";
-	cin >> negcash;
+	cin >> negcash; // get value
 	cout << "\n";
 	x = stoi(line);
 	if (negcash > x) {
-		cout << "NOT ENOUGH FUNDS. CURRENT FUNDS ARE: $" << line << "\n\n";
+		cout << "NOT ENOUGH FUNDS. CURRENT FUNDS ARE: $" << line << "\n\n"; // checks if number is able to be subtracted
 		goto redraw;
 	}
 	else {
 		cash = x - negcash;
 		ofstream myfile;
-		myfile.open("money.txt", ios::out | ios::trunc);
+		myfile.open("money.txt", ios::out | ios::trunc); // opens file for writing
 		myfile << cash;
-		myfile.close();
-		cout << "SUCCESSFULLY WITHDRAWN CASH. WOULD YOU LIKE TO CHOOSE ANOTHER OPTION? \n"
+		myfile.close(); // close file
+		cout << "SUCCESSFULLY WITHDRAWN CASH. WOULD YOU LIKE TO CHOOSE ANOTHER OPTION? \n" // prompts user to either stay in menu or exit
 			<< "Y OR N: ";
 	yn: cin >> yesno;
 		cout << "\n";
@@ -74,26 +78,26 @@ void deposit() {
 	int poscash;
 	int y;
 	ifstream myfile;
-	myfile.open("money.txt");
-	getline(myfile, line);
+	myfile.open("money.txt"); // opens file for reading
+	getline(myfile, line); // reads file
 	y = stoi(line);
 	cout << "HOW MUCH WOULD YOU LIKE TO DEPOSIT?: ";
 	reposit: cin >> poscash;
 	cout << "\n";
-	cout << "IS THE AMOUNT $" << poscash << " CORRECT? (SELECT Y OR N): ";
+	cout << "IS THE AMOUNT $" << poscash << " CORRECT? (SELECT Y OR N): "; // verifies amount to deposit
 		ny:cin >> noyes;
-	// comment :)
+
 
 		if (noyes == "Y")
 		{
 			cash2 = poscash + y;
 			myfile.close();
 			ofstream myfile;
-			myfile.open("money.txt", ios::out | ios::trunc);
+			myfile.open("money.txt", ios::out | ios::trunc); //opens file for writing
 			myfile << cash2;
-			cout << "DEPOSIT SUCCESSFUL. YOUR CURRENT BALANCE IS: $" << cash2 << "\n\n"
+			cout << "DEPOSIT SUCCESSFUL. YOUR CURRENT BALANCE IS: $" << cash2 << "\n\n" // prompts user to stay in menu or exit
 				<< "WOULD YOU LIKE TO CHOOSE ANOTHER OPTION? (SELECT Y OR N): ";
-			myfile.close();
+			myfile.close(); // closes file
 		yn:	cin >> yesnoo;
 			cout << "\n";
 			while (true)
@@ -116,7 +120,7 @@ void deposit() {
 		}
 		
 		else if (noyes == "N") {
-			cout << "PLEASE INPUT CORRECT AMOUNT TO DEPOSIT: ";
+			cout << "PLEASE INPUT CORRECT AMOUNT TO DEPOSIT: "; // verifies correct amount and takes value
 			goto reposit;
 		}
 		else {
@@ -132,13 +136,13 @@ void account(float) {
 	string line;
 	ifstream myfile;
 
-if (accnum == 123456) {
-		myfile.open("money.txt");
+if (accnum == 123456) { // verifies account number is correct
+		myfile.open("money.txt"); // opens file for reading
 		
 		if (getline(myfile, line))
 		{
-			cout << "YOUR CURRENT BALANCE IS $" << line << "." << '\n' << '\n';
-			options();
+			cout << "YOUR CURRENT BALANCE IS $" << line << "." << '\n' << '\n'; // reads current value
+			options(); // display menu
 			myfile.close();
 		}
 		while (true) {
@@ -160,11 +164,11 @@ if (accnum == 123456) {
 			}
 
 			else if (opt == 3) {
-				myfile.open("money.txt");
+				myfile.open("money.txt"); // opens file for reading
 				getline(myfile, line);
-				cout << "YOUR CURRENT BALANCE IS $" << line << "." << '\n' << '\n';
+				cout << "YOUR CURRENT BALANCE IS $" << line << "." << '\n' << '\n'; // displays current value
 				options();
-				myfile.close();
+				myfile.close(); // closes file
 
 			}
 
@@ -172,7 +176,7 @@ if (accnum == 123456) {
 				exit(0);
 			}
 
-			else if (opt != (1 | 2 | 3 | 4)) {
+			else if (opt != (1 | 2 | 3 | 4)) { // verifies numerical option in menu
 				cout << "INVALID NUMBER. CHOOSE FROM DIRECTORY.\n\n ";
 				cout << "       " << "DIRECTORY       \n" << "        ---------\n";
 				cout << "[1] WITHDRAW\n" << "[2] DEPOSIT\n" << "[3] SEE BALANCE\n" << "[4] EXIT\n";
@@ -189,8 +193,8 @@ if (accnum == 123456) {
 
 int main() {
 	cout << "WELCOME TO THE BANK! \n";
-mylabel: cout << "PLEASE ENTER YOUR ACCOUNT NUMBER: ";
+mylabel: cout << "PLEASE ENTER YOUR ACCOUNT NUMBER: "; // prompts user to input account number
 	cin >> accnum;
 	account(accnum);
-	goto mylabel;
+	goto mylabel; // jumps to mylabel
 }
